@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-app.use(express.json());
 const morgan = require('morgan'); //middleware library
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -8,22 +7,23 @@ require('dotenv/config');
 
 app.use(cors());
 app.options('*', cors());
+
 //Middleware
 app.use(express.json());
 app.use(morgan('tiny'));
 
-const categoriesRouter = require('./routers/categories');
-const productsRouter = require('./routers/products');
-const ordersRouter = require('./routers/orders');
-const usersRouter = require('./routers/users');
+const categoriesRoutes = require('./routers/categories');
+const productsRoutes = require('./routers/products');
+const usersRoutes = require('./routers/users');
+const ordersRoutes = require('./routers/orders');
 
 const api = process.env.API_URL;
 
 //routers
-app.use(`${api}/categories`, categoriesRouter);
-app.use(`${api}/products`, productsRouter);
-app.use(`${api}/orders`, ordersRouter);
-app.use(`${api}/users`, usersRouter);
+app.use(`${api}/categories`, categoriesRoutes);
+app.use(`${api}/products`, productsRoutes);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
 
 //db connection
 mongoose.set('strictQuery', false);
